@@ -39,7 +39,7 @@ class TUData extends munit.FunSuite:
 
 class TUMatricula extends munit.FunSuite:
   val VALOR_VALIDO = "1234567"
-  val VALOR_INVALIDO = "7654321"
+  val VALOR_INVALIDO = "1234568"
 
   val dominio = new Matricula()
   test("testarValorValido"):

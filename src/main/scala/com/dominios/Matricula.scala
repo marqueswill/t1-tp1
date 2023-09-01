@@ -7,23 +7,19 @@ class Matricula extends Dominios:
     if (!valor.forall(_.isDigit)) then
       throw new Exception("Matricula deve conter apenas digitos")
 
-    var listaValores = valor.toList.map(_.asDigit)
-    var digitoVerificador = listaValores.last
-
-    listaValores = listaValores.init // remove o ultimo
-    listaValores = listaValores.reverse // inverte a lista
+    var digitoVerificador = valor(6).asDigit
+    var soma = 0
+    var digitoEncontrado = 0
+    var fator = 1
 
     for (i <- 0 to 5)
-      if (i % 2 == 0) then
-        listaValores = listaValores.updated(i, listaValores(i) * 2)
+      soma += fator * valor(i).asDigit
+      fator = if (i % 2 == 0) 2 else 1
 
-    var soma: Int = 0
-    for (valor <- listaValores)
-      if (valor >= 10) then
-        var digitoUnidade = valor % 10
-        var digitoDezena = (valor - digitoUnidade) / 10
-        soma += digitoDezena + digitoUnidade
-      else soma += valor
+    soma = soma % 10
+    digitoEncontrado = if (soma != 0) (10 - soma) else 0
 
-    var resto: Int = soma % 10
-    var resultado = if (resto != 0) then (10 - resto) else 0
+    if digitoVerificador != digitoEncontrado then
+      throw new Exception("Digito verificador invalido")
+
+end Matricula
