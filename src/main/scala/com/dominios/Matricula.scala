@@ -1,6 +1,6 @@
 class Matricula extends Dominios:
 
-  private override def validar(valor: String): Unit =
+  protected override def validar(valor: String): Unit =
     if (valor.length() != 7) then
       throw new Exception("Numero de matricula deve conter 7 digitos")
 
@@ -14,15 +14,16 @@ class Matricula extends Dominios:
     listaValores = listaValores.reverse // inverte a lista
 
     for (i <- 0 to 5)
-      if (i % 2 == 0) then listaValores(i) *= 2
+      if (i % 2 == 0) then
+        listaValores = listaValores.updated(i, listaValores(i) * 2)
 
     var soma: Int = 0
     for (valor <- listaValores)
-      if (digito.length >= 10) then
+      if (valor >= 10) then
         var digitoUnidade = valor % 10
         var digitoDezena = (valor - digitoUnidade) / 10
         soma += digitoDezena + digitoUnidade
-      else soma += digito
+      else soma += valor
 
     var resto: Int = soma % 10
     var resultado = if (resto != 0) then (10 - resto) else 0

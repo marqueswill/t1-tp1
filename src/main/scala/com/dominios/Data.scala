@@ -1,6 +1,5 @@
 class Data extends Dominios:
-
-  private override def validar(valor: String): Unit =
+  protected override def validar(valor: String): Unit =
     val mesValido = List(
       "JAN",
       "FEV",
@@ -16,21 +15,21 @@ class Data extends Dominios:
       "DEZ"
     )
 
-    val diasMes =
+    var diasMes =
       List(31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31)
 
-    if (valor.count('/') != 2) then
+    if (valor.count(_ == '/') != 2) then
       throw new Exception("Formato de data invalido")
 
-    var dia, mes, ano: String
+    var dia, ano = 0
+    var mes = ""
     var data = valor.split("/")
 
     try
-      dia = data(0).toInt()
-      mes = data(1)
-      ano = data(2).toInt()
-    catch
-      case _ -> NumberFormatException => throw new Exception("Data invalida")
+      var dia = data(0).toInt
+      var mes = data(1)
+      var ano = data(2).toInt
+    catch case _: NumberFormatException => throw new Exception("Data invalida")
 
     if !(ano >= 2000 && ano <= 2999) then
       throw new Exception("Ano deve estar entre 2000 e 2999")
@@ -40,7 +39,7 @@ class Data extends Dominios:
 
     if (mes == "FEV") then
       if (ano % 4 == 0 && (ano % 100 != 0 || ano % 400 == 0))
-        diasMes(1) = 29
+        diasMes = diasMes.updated(1, 29)
 
     var pos: Int = mesValido.indexOf(mes)
     if !(dia >= 1 && dia <= diasMes(pos)) then

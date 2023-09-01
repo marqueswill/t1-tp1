@@ -1,5 +1,5 @@
 abstract class Dominios:
-  protected var valor: String
+  protected var valor: String = _
 
   protected def validar(valor: String): Unit
 
